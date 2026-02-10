@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rock-Paper-Scissors</title>
+  <style>
+    body {
+      background-color: #222;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    #game-zone {
+      background-color: black;
+      padding: 30px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    h1 {
+      color: tomato;
+      margin-bottom: 20px;
+    }
+
+    .choice {
+      display: inline-block;
+      margin: 10px;
+    }
+
+    img {
+      width: 100px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: transform 0.2s;
+    }
+
+    img:hover {
+      transform: scale(1.1);
+    }
+
+    #result, #scoreboard {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    #resetBtn {
+      margin-top: 25px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: tomato;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #resetBtn:hover {
+      background-color: crimson;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="game-zone">
+    <h1>Rock - Paper - Scissors</h1>
+
+    <div class="choice">
+      <img src="https://supersimple.dev/projects/rock-paper-scissors/images/rock-emoji.png" alt="Rock" onclick="playGame('Rock')">
+    </div>
+    <div class="choice">
+      <img src="https://supersimple.dev/projects/rock-paper-scissors/images/paper-emoji.png" alt="Paper" onclick="playGame('Paper')">
+    </div>
+    <div class="choice">
+      <img src="https://supersimple.dev/projects/rock-paper-scissors/images/scissors-emoji.png" alt="Scissor" onclick="playGame('Scissor')">
+    </div>
+
+    <div id="result"></div>
+    <div id="scoreboard">Wins: 0 | Losses: 0 | Draws: 0</div>
+    <button id="resetBtn" onclick="resetScore()">Reset Score</button>
+  </div>
+
+  <script>
+    let wins = 0;
+    let losses = 0;
+    let draws = 0;
+
+    function playGame(userChoice) {
+      const choices = ['Rock', 'Paper', 'Scissor'];
+      const computerChoice = choices[Math.floor(Math.random() * 3)];
+      let resultText = '';
+
+      if (userChoice === computerChoice) {
+        resultText = "It's a Draw!";
+        draws++;
+      } else if (
+        (userChoice === 'Rock' && computerChoice === 'Scissor') ||
+        (userChoice === 'Paper' && computerChoice === 'Rock') ||
+        (userChoice === 'Scissor' && computerChoice === 'Paper')
+      ) {
+        resultText = "You Win!";
+        wins++;
+      } else {
+        resultText = "You Lose!";
+        losses++;
+      }
+
+      document.getElementById('result').innerHTML = `
+        <p>You chose: <strong>${userChoice}</strong></p>
+        <p>Computer chose: <strong>${computerChoice}</strong></p>
+        <p><strong>${resultText}</strong></p>
+      `;
+
+      updateScoreboard();
+    }
+
+    function updateScoreboard() {
+      document.getElementById('scoreboard').innerHTML = `
+        Wins: ${wins} | Losses: ${losses} | Draws: ${draws}
+      `;
+    }
+
+    function resetScore() {
+      wins = 0;
+      losses = 0;
+      draws = 0;
+      updateScoreboard();
+      document.getElementById('result').innerHTML = `<p>Score reset. Let's play again!</p>`;
+    }
+  </script>
+
+</body>
+</html>
